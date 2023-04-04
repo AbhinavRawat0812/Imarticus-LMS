@@ -2,31 +2,12 @@ const dbUtils = require('../dbUtils/databaseConn.js')
 
 module.exports = {
 
-    getAllCourses: async function(){
+    getCourseConcepts: async function(courseId){
 
         try{
-            let collection = await dbUtils.GetMongoCollection("Courses");
-            var courses = await collection.find().toArray();
-            var result = []
-
-            for(i in courses){
-                
-                result.push(courses[i].courseId);
-            }
-
-            return result;
-
-        }catch(err)
-        {
-            return err;
-        }
-    },
-
-    getStudentCourses: async function(studentId){
-        try{
-            let collection = await dbUtils.GetMongoCollection("Students");
-            let student = await collection.findOne({"studentId":studentId});
-            return student.coursesEnrolledIn;
+            let collection = await dbUtils.GetMongoCollection("Course");
+            var course = await collection.findOne({"courseId":courseId});
+            return course.concept;
 
         }catch(err)
         {
@@ -37,9 +18,25 @@ module.exports = {
     getCourseNameByCourseId: async function(courseId){
         try{
 
-            let collection = await dbUtils.GetMongoCollection("Courses");
+            let collection = await dbUtils.GetMongoCollection("Course");
             var course = await collection.findOne({"courseId":courseId});
-            return course.courseName;
+            var obj = {
+                courseName:course.courseName,
+                batch:course.batch
+            }
+            return obj;
+        }catch(err)
+        {
+            return err;
+        }
+    },
+    getLectures: async function(conceptId){
+        try{
+
+            let collection = await dbUtils.GetMongoCollection("Lectures");
+            var lecture = await collection.findOne({"conceptId":conceptId});
+            
+            return lecture.lecture;
         }catch(err)
         {
             return err;

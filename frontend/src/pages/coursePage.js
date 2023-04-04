@@ -12,7 +12,9 @@ export default function CoursePage() {
     const [courseName, setCourseName] = useState('');
     const [batch, setBatch] = useState('');
     const [concepts, setConcepts] = useState([]);
-    const [viewLectures,setViewLectures] = useState(false);
+    const [viewLectures, setViewLectures] = useState(false);
+    const [lecture, setLecture] = useState();
+    const [lectureDur,setLectureDur] = useState();
 
     useEffect(() => {
         fetch('http://127.0.0.1:4500/api/getCourseName/201', {
@@ -41,8 +43,21 @@ export default function CoursePage() {
         console.log(courseName)
     }, [])
 
-    const getLectureDetail = (conceptId) => {
-        console.log(conceptId)
+    const getLectureDetail = async (conceptId) => {
+        // setViewLectures(false);
+        // setLecture([]);
+        await fetch(`http://127.0.0.1:4500/api/getLectures/${conceptId}`, {
+            method: 'GET',
+            'Content-type': 'application/json'
+        })
+            .then(res => res.json())
+            .then((res) => {
+                console.log(res);
+                setViewLectures(true);
+                setLecture(res.data.lectureName);
+                setLectureDur(res.data.lectureDuration)
+            })
+            console.log(lecture);
     }
 
 
@@ -76,19 +91,25 @@ export default function CoursePage() {
                     </div>
                     {concepts.map((concept, key) => {
                         return (
-                            <div key={key} className='lectures' role="button" onClick={()=>getLectureDetail(concept.conceptId)}>
-                                <h4>{concept.concept_name}</h4>
-                                <span style={{ position: "absolute", right: "5%", top: "15%" }}>+</span>
-                                <p className='concept-font'>
-                                    {concept.noOfLectures} Lectures
-                                    {(concept.noOfQuizes>0)&&<span className='concept-font'>
-                                        , {concept.noOfQuizes} Quiz
-                                    </span>}
+                            <div key={key}>
+                                <p>
+                                    <div key={key} className='lectures' role="button" onClick={() => getLectureDetail(concept.conceptId)} data-bs-toggle="collapse" data-bs-target={"#" + concept.conceptId} aria-expanded="false" aria-controls={concept.conceptId}>
+                                        <h4>{concept.concept_name}</h4>
+                                        <p className='concept-font'>
+                                            {concept.noOfLectures} Lectures
+                                            {(concept.noOfQuizes > 0) && <span className='concept-font'>
+                                                , {concept.noOfQuizes} Quiz
+                                            </span>}
+                                        </p>
+                                    </div>
                                 </p>
-                                {viewLectures&&<div>
-                                    Hey
-                                </div>}
+                                <div class="collapse" id={concept.conceptId}>
+                                    <div class="card card-body">
+                                        <a href="#">{lecture} {lectureDur}</a>
+                                    </div>
+                                </div>
                             </div>
+
                         );
                     })}
 

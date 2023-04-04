@@ -1,72 +1,77 @@
 const dao = require('../dao/coursesDAO.js');
-const models = require('../models/attendance.js');
 
 
 module.exports = {
 
-    getAllCourses: async(request,response)=>{
+    getCourseName: async(request,response)=>{
         var respBody ={
-            err:{
-                statusCode:0,
-                message:""
-            },
-            data:{
-                courses:[]
-            }
+            success:Boolean,
+            data:{}
         }
-
+        var courseId = request.params.courseId
+        courseId = Number(courseId);
         try{
-            var courses = await dao.getAllCourses()
-            courses.sort();
-            respBody.data.courses=courses;
+            var course = await dao.getCourseNameByCourseId(courseId);
+            respBody.success=true;
+            respBody.data=course;
         }catch(err)
         {
-            respBody.err.statusCode=400;
-            respBody.err.message = "Error Fetching Courses";
+            respBody.success=false;
             response.status(400).json(respBody);
         }
 
+        if(course==null)
+        {
+            respBody.success=false;
+            response.status(400).json(respBody)
+        }
         response.status(200).json(respBody);
     },
 
-    getCoursesOfStudent: async(request,response)=>{
+    getCourseConcepts: async(request,response)=>{
         var respBody ={
-            err:{
-                statusCode:0,
-                message:""
-            },
-            data:{
-                coursesStudentEnrolledIn:[]
-            }
+            success:Boolean,
+            data:{}
         }
-
-        var studentId = request.params.studentId
-        studentId = Number(studentId)
-
+        var courseId = request.params.courseId
+        courseId = Number(courseId);
         try{
-            var courseIds = await dao.getStudentCourses(studentId);
-            for(i in courseIds)
-            {
-                var courseId = courseIds[i];
-                var courseName = await dao.getCourseNameByCourseId(courseId);
-                var obj = {
-                    courseId:courseId,
-                    courseName: courseName
-                }
-                respBody.data.coursesStudentEnrolledIn.push(obj);
-            }
-
-            respBody.err.statusCode=200
-            response.status(200).json(respBody)
-
-            
+            var courseConcepts = await dao.getCourseConcepts(courseId);
+            if(courseConcepts==null)
+                throw err;
+            respBody.success=true;
+            respBody.data=courseConcepts;
         }catch(err)
         {
-            respBody.err.statusCode=400
-            respBody.err.message = "Error Finding the courses Student is enrolled in"
-            response.status(400).json(respBody)
+            respBody.success=false;
+            response.status(400).json(respBody);
         }
+        response.status(200).json(respBody);
+    },
+    getLectures: async(request,response)=>{
+        var respBody ={
+            success:Boolean,
+            data:{}
+        }
+        var conceptId = request.params.conceptId
+        conceptId = Number(conceptId);
 
+        try{
+            var lectures = await dao.getLectures(conceptId);
+            if(lectures==null)
+                throw err;
+            respBody.success=true;
+            respBody.data={
+                lectureName:lectures[0].lectureName,
+                lectureDuration:lectures[0].lectureDurationHours+":"+lectures[0].lectureDurationMin
+            }
+        }catch(err)
+        {
+            respBody.success=false;
+            // response.status(400).json(respBody);
+        }
+        response.status(200).json(respBody);
     }
+    
 
 };
