@@ -46,7 +46,7 @@ export default function CoursePage() {
     const getLectureDetail = async (conceptId) => {
         // setViewLectures(false);
         // setLecture([]);
-        await fetch('/api/getLectures/2011', {
+        await fetch(`/api/getLectures/${conceptId}`, {
             method: 'GET',
             'Content-type': 'application/json'
         })
