@@ -4,6 +4,7 @@ import useAuth from '../realm/useAuth';
 import { Link, Navigate } from 'react-router-dom';
 
 
+
 export default function Login() {
 
   const { setAuth } = useAuth();
@@ -63,6 +64,18 @@ export default function Login() {
     setPwd('');
   }
 
+  const handleGoogleSuccess = async ({ tokenId }) => {
+    const res = await fetch(`/auth/google?token=${tokenId}`);
+    const { token, user } = await res.json();
+    localStorage.setItem('userToken', token);
+    localStorage.setItem('userName', user.name);
+    localStorage.setItem('userPicture', user.picture);
+  };
+  
+  const handleGoogleFailure = error => {
+    console.log(error);
+  };
+
   return (
     <>
 
@@ -74,7 +87,7 @@ export default function Login() {
 
       ) : (
         <>
-  
+
           <div className="container">
             <h1 align='center'>LOGIN</h1>
             <hr />
@@ -103,6 +116,13 @@ export default function Login() {
               <input type="checkbox" />
               <span>I am not a robot</span><br />
               <input type="submit" id="formloginbutton" value='Login' />
+              <input type="button" id="formloginbutton" value='Login With Google' />
+              {/* <GoogleLogin
+                clientId="YOUR_CLIENT_ID"
+                buttonText="Login with Google"
+                onSuccess={handleGoogleSuccess}
+                onFailure={handleGoogleFailure}
+              /> */}
             </form>
             {(errMsg !== '') && <div className='errBox'>{errMsg}</div>}
           </div>
