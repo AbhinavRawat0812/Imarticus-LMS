@@ -1,0 +1,39 @@
+.container
+{
+    width: 20%;
+    height:fit-content;
+    background-color: #F5F3F3;
+    display: flex;
+    align-self: center;
+    padding:2%;
+    margin-left: 40%;
+    margin-top:8%;
+    margin-bottom:8%;
+    border-radius: 20px;
+    flex-direction: column;
+}
+#username, #password{
+   border-radius: 20px;
+   border: #F5F3F3;
+   height: 35px;
+   width: 100%;
+   padding-left:5%;
+}
+#formloginbutton
+{
+    width : 40%;
+    height: fit-content;
+    padding:3%;
+    background-color: black;
+    color:white;
+    margin-left: 30%;
+    margin-top: 10%;
+    border-radius: 20px;
+    cursor: pointer;
+}
+
+.errBox{
+    padding: 20px;
+    background-color: #FC6C85;
+    font-weight: bold;
+}

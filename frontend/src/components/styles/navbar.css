@@ -23,5 +23,9 @@
 .getHelpBtn{
     width: 140px;
     height: 60px;
-    margin-left:50% ;
+    margin-left:40% ;
+}
+
+.mr-05{
+    margin-right: 140px;
 }
