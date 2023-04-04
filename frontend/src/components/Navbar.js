@@ -1,7 +1,11 @@
 import './styles/navbar.css';
+import useAuth from '../realm/useAuth';
 
 
 export default function Navbar(props) {
+
+    const { auth } = useAuth()
+
     return (
         <>
             <nav class="navbar bg-body-tertiary right-align center-all">
@@ -11,7 +15,7 @@ export default function Navbar(props) {
                     <div class="dropdown mr-05">
                         <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                             <img src='https://cdn.eckovation.com/images/Profile-01.svg' width={"40px"}></img>
-                            Abhinav Rawat
+                            {auth.name}
                         </button>
                         <ul class="dropdown-menu dropdown-menu-dark">
                             <li><a class="dropdown-item active" href="#">Action</a></li>
