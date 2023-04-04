@@ -6,11 +6,11 @@ var mongoClient;
 
 
  module.exports = {
-    InitDbConn: function () {
+    InitDbConn: async function () {
 
       console.log("HEY!")
 
-      createMongoConnection().catch(console.error);
+      await createMongoConnection().catch(console.error);
     },
     
     GetMongoCollection: function (collectionName) {

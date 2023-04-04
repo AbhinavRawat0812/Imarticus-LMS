@@ -5,8 +5,7 @@
   "main": "main.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node main.js",
-    "dev": "concurrently \"npm start\" \"npm run frontend\" "
+    "start": "node main.js"
   },
   "author": "Abhinav",
   "license": "ISC",
