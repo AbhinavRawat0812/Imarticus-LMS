@@ -14,7 +14,7 @@ var mongoClient;
     },
     
     GetMongoCollection: function (collectionName) {
-      return mongoClient.db('attendancesystem').collection(collectionName);
+      return mongoClient.db('imarticus').collection(collectionName);
     }
   };
  
