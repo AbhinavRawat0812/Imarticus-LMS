@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node main.js",
-    "dev": "concurrently \"npm start\" \"npm run client\" "
+    "dev": "concurrently \"npm start\" \"npm run frontend\" "
   },
   "author": "Abhinav",
   "license": "ISC",
