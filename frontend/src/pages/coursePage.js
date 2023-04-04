@@ -17,7 +17,7 @@ export default function CoursePage() {
     const [lectureDur,setLectureDur] = useState();
 
     useEffect(() => {
-        fetch('http://127.0.0.1:4500/api/getCourseName/201', {
+        fetch('/api/getCourseName/201', {
             method: 'GET',
             'Content-type': 'application/json'
         })
@@ -30,7 +30,7 @@ export default function CoursePage() {
     }, [])
 
     useEffect(() => {
-        fetch('http://127.0.0.1:4500/api/getCourseConcepts/201', {
+        fetch('/api/getCourseConcepts/201', {
             method: 'GET',
             'Content-type': 'application/json'
         })
@@ -46,7 +46,7 @@ export default function CoursePage() {
     const getLectureDetail = async (conceptId) => {
         // setViewLectures(false);
         // setLecture([]);
-        await fetch(`http://127.0.0.1:4500/api/getLectures/${conceptId}`, {
+        await fetch(`api/getLectures/${conceptId}`, {
             method: 'GET',
             'Content-type': 'application/json'
         })
