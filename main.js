@@ -28,7 +28,7 @@ app.use(cors({
 //Importing Router
 app.use('/api', router)
 
-app.use(express.static("frontend/build"));
+app.use(express.static(path.join(__dirname,"./frontend/build")));
 
 app.get("*",function(_,res){
     res.sendFile(
